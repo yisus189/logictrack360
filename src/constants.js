@@ -9,6 +9,7 @@ export const PHASES = [
   "Estrategia",
   "Requerimientos",
   "Planeación",
+  "Diseño",
   "Otras",
 ];
 
@@ -20,5 +21,8 @@ export const CATEGORIES = [
   "Bitácoras",
   "Script",
   "Control de Asignaciones",
+  "Plan de riesgo",
+  "Especificacion",
+  "Otras",
 ];
 
