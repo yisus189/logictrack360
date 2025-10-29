@@ -255,14 +255,6 @@ export default function App() {
               <option value="reciente">Recientes</option>
               <option value="alfabético">Alfabético</option>
             </select>
-            <select
-              className="select"
-              value={sort}
-              onChange={(e) => setSort(e.target.value)}
-            >
-              <option value="reciente">Reciente</option>
-              <option value="alfabético">Alfabético</option>
-            </select>
           </div>
 
           {/* 👇 Aquí está la condición: si se seleccionan Plantillas, mostrar el panel */}
