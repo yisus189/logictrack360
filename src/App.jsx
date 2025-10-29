@@ -3,7 +3,7 @@ import supabase from "./lib/supabase";
 import { ROLES, PHASES, CATEGORIES } from "./constants";
 import "./index.css";
 import TemplatesPanel from "./components/TemplatesPanel";
-import logo from "./assets/logoLogicTrack360.jpeg";
+import logo from "/src/assets/logoLogicTrack360.jpeg";
 
 const BUCKET = import.meta.env.VITE_SUPABASE_BUCKET || "logictrack360";
 
@@ -244,7 +244,7 @@ export default function App() {
         {/* MAIN */}
         <main>
           <div className="header">
-            <img src="/src/assets/logoLogicTrack360.jpeg" alt="LogicTrack360" style={{ height: 36 }} />
+            <img src={logo} alt="LogicTrack360" style={{ height: "40px" }} />
             <h1>LogicTrack360</h1>
             <input className="search" placeholder="Buscar…" value={q} onChange={(e) => setQ(e.target.value)} />
             <select className="select" value={activePhase} onChange={(e) => setActivePhase(e.target.value)}>
