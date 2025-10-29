@@ -2,6 +2,8 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import supabase from "./lib/supabase";
 import { ROLES, PHASES, CATEGORIES } from "./constants";
 import "./index.css";
+import TemplatesPanel from "./components/TemplatesPanel";
+import logo from "./assets/logoLogicTrack360.jpeg";
 
 const BUCKET = import.meta.env.VITE_SUPABASE_BUCKET || "logictrack360";
 
@@ -211,7 +213,14 @@ export default function App() {
           ))}
 
           <h2 style={{ marginTop: 16 }}>Recursos</h2>
-          <div className="badge">Plantillas</div>
+
+          <button
+            className="btn"
+            onClick={() => setActiveRole("plantillas")}
+          >
+            📄 Plantillas
+          </button>
+
 
           <div style={{ marginTop: 18 }}>
             <div className="badge">Subir documentos</div>
@@ -235,29 +244,55 @@ export default function App() {
         {/* MAIN */}
         <main>
           <div className="header">
-            <h1 style={{ margin: 0 }}>LogicTrack360</h1>
+            <img src="/src/assets/logoLogicTrack360.jpeg" alt="LogicTrack360" style={{ height: 36 }} />
+            <h1>LogicTrack360</h1>
             <input className="search" placeholder="Buscar…" value={q} onChange={(e) => setQ(e.target.value)} />
             <select className="select" value={activePhase} onChange={(e) => setActivePhase(e.target.value)}>
               <option value="todas">Todas las fases</option>
-              {PHASES.map((p) => <option key={p} value={p}>{p}</option>)}
+              {PHASES.map((p) => <option key={p}>{p}</option>)}
             </select>
             <select className="select" value={sort} onChange={(e) => setSort(e.target.value)}>
+              <option value="reciente">Recientes</option>
+              <option value="alfabético">Alfabético</option>
+            </select>
+            <select
+              className="select"
+              value={sort}
+              onChange={(e) => setSort(e.target.value)}
+            >
               <option value="reciente">Reciente</option>
               <option value="alfabético">Alfabético</option>
             </select>
           </div>
 
-          {groupedByPhase.map(([phase, items]) => (
-            <section key={phase}>
-              <div className="phase-title">Fase: {phase}</div>
-              {items.map((doc) => (
-                <DocRow key={doc.id} doc={doc} onClick={() => setSelectedDocId((prev) => (prev === doc.id ? null : doc.id))} />
-              ))}
-              {selectedDoc && selectedDoc.phase === phase && (
-                <DocDetail doc={selectedDoc} onUpdateVersion={handleUpdateVersion} onDelete={handleDeleteDocument} onClose={() => setSelectedDocId(null)} setCustomVersion={setCustomVersion} />
-              )}
-            </section>
-          ))}
+          {/* 👇 Aquí está la condición: si se seleccionan Plantillas, mostrar el panel */}
+          {activeRole === "plantillas" ? (
+            <TemplatesPanel />
+          ) : (
+            groupedByPhase.map(([phase, items]) => (
+              <section key={phase}>
+                <div className="phase-title">Fase: {phase}</div>
+                {items.map((doc) => (
+                  <DocRow
+                    key={doc.id}
+                    doc={doc}
+                    onClick={() =>
+                      setSelectedDocId((prev) => (prev === doc.id ? null : doc.id))
+                    }
+                  />
+                ))}
+                {selectedDoc && selectedDoc.phase === phase && (
+                  <DocDetail
+                    doc={selectedDoc}
+                    onUpdateVersion={handleUpdateVersion}
+                    onDelete={handleDeleteDocument}
+                    onClose={() => setSelectedDocId(null)}
+                    setCustomVersion={setCustomVersion}
+                  />
+                )}
+              </section>
+            ))
+          )}
         </main>
       </div>
     </div>
