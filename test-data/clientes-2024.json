@@ -1,0 +1,50 @@
+{
+  "metadata": {
+    "nombre": "Dataset de Clientes 2024",
+    "descripcion": "Datos de clientes para pruebas del Data Space",
+    "version": "1.0",
+    "fecha_creacion": "2024-10-30"
+  },
+  "clientes": [
+    {
+      "id": 1,
+      "nombre": "Empresa A",
+      "sector": "Tecnología",
+      "empleados": 150,
+      "ingresos_anuales": 5000000,
+      "ciudad": "Madrid"
+    },
+    {
+      "id": 2,
+      "nombre": "Empresa B",
+      "sector": "Retail",
+      "empleados": 300,
+      "ingresos_anuales": 12000000,
+      "ciudad": "Barcelona"
+    },
+    {
+      "id": 3,
+      "nombre": "Empresa C",
+      "sector": "Manufactura",
+      "empleados": 500,
+      "ingresos_anuales": 25000000,
+      "ciudad": "Valencia"
+    },
+    {
+      "id": 4,
+      "nombre": "Empresa D",
+      "sector": "Servicios",
+      "empleados": 80,
+      "ingresos_anuales": 2000000,
+      "ciudad": "Sevilla"
+    },
+    {
+      "id": 5,
+      "nombre": "Empresa E",
+      "sector": "Tecnología",
+      "empleados": 200,
+      "ingresos_anuales": 8000000,
+      "ciudad": "Bilbao"
+    }
+  ]
+}

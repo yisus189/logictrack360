@@ -1,0 +1,13 @@
+mes,ventas,region,producto,unidades
+enero,15000,norte,laptop,50
+enero,12000,sur,laptop,40
+enero,8000,este,tablet,60
+febrero,18000,norte,laptop,60
+febrero,14000,sur,laptop,45
+febrero,9500,este,tablet,70
+marzo,22000,norte,laptop,75
+marzo,16000,sur,laptop,55
+marzo,11000,este,tablet,80
+abril,20000,norte,laptop,68
+abril,15000,sur,laptop,50
+abril,10000,este,tablet,75
