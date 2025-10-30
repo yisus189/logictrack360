@@ -18,7 +18,29 @@ Sistema integral de gestión documental y Data Space compatible con IDSA/DSSC.
 - **📋 Contratos Implícitos** - Creación automática al aprobar solicitudes
 - **🔄 Transferencias de Datos** - Seguimiento y control de intercambios
 
-## 🚀 Inicio Rápido
+## ⚡ Inicio Rápido (5 minutos)
+
+**¿Quieres probarlo ahora?** Sigue estos pasos:
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/yisus189/logictrack360.git
+cd logictrack360
+git checkout copilot/create-data-space
+
+# 2. Configurar Supabase (ver QUICKSTART.md)
+# 3. Configurar variables de entorno
+cp .env.example .env
+# Edita .env con tus credenciales de Supabase
+
+# 4. Instalar y ejecutar
+npm install
+npm run dev
+```
+
+**📖 Guía completa**: Ver [QUICKSTART.md](QUICKSTART.md) para instrucciones paso a paso con capturas de pantalla.
+
+## 🚀 Instalación Detallada
 
 ### Instalación
 
