@@ -153,21 +153,25 @@ npm run preview
 
 #### With OpenMetadata
 
-1. Ensure OpenMetadata is running
+1. Ensure OpenMetadata is running: `curl http://localhost:8585/api/v1/health`
 2. Add some data sources to OpenMetadata
 3. Go to "📚 Catálogo de Datos"
 4. Check "Usar OpenMetadata"
 5. You should see datasets from OpenMetadata
+6. If not, check browser console for errors and verify the token
 
 ## Common Issues and Solutions
 
 ### Issue: OpenMetadata Connection Failed
 
 **Solution:**
-- Check that OpenMetadata is running
-- Verify the URL in `.env` is correct
-- Ensure the JWT token is valid
-- Check CORS settings in OpenMetadata
+- Check that OpenMetadata is running: `docker ps` or check the service status
+- Verify the URL in `.env` is correct (default: http://localhost:8585)
+- Ensure the JWT token is valid and not expired
+- Check CORS settings in OpenMetadata configuration
+- Test the connection: `curl http://localhost:8585/api/v1/health`
+- Review OpenMetadata logs for errors
+- If using Docker, ensure the container is on the same network
 
 ### Issue: Database Policies Error
 

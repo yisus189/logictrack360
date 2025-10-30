@@ -142,7 +142,7 @@ npm run lint
 
 ## 📄 Licencia
 
-Este proyecto está bajo licencia [especificar licencia].
+Este proyecto está bajo licencia MIT. Ver el archivo LICENSE para más detalles.
 
 ## 👥 Equipo
 
