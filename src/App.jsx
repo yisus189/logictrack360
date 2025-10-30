@@ -3,7 +3,7 @@ import supabase from "./lib/supabase";
 import { ROLES, PHASES, CATEGORIES } from "./constants";
 import "./index.css";
 import TemplatesPanel from "./components/TemplatesPanel";
-import DataPanel from "./components/DataPanel";
+import DataSpace from "./components/DataSpace";
 import logo from "/src/assets/logoLogicTrack360.jpeg";
 
 const BUCKET = import.meta.env.VITE_SUPABASE_BUCKET || "logictrack360";
@@ -269,7 +269,7 @@ export default function App() {
           {activeRole === "plantillas" ? (
             <TemplatesPanel />
           ) : activeRole === "datos" ? (
-            <DataPanel />
+            <DataSpace />
           ) : (
             groupedByPhase.map(([phase, items]) => (
               <section key={phase}>
