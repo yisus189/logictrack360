@@ -328,3 +328,35 @@ body {
 .template-card {
   animation: fadeIn 0.3s ease;
 }
+
+.upload-templates-box {
+  margin-top: 20px;
+  background: #f6f1ff;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px dashed #b79eff;
+}
+
+.upload-templates-box h3 {
+  margin: 0 0 10px;
+  color: #5a3fbf;
+  font-weight: 600;
+}
+
+.upload-templates-box input[type="file"] {
+  margin-right: 8px;
+}
+
+.upload-templates-box .btn.primary {
+  background: #7b61ff;
+  border: none;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.upload-templates-box .btn.primary:hover {
+  background: #6844ff;
+}
+

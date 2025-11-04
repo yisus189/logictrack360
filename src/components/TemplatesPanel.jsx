@@ -13,7 +13,9 @@ export default function TemplatesPanel({ onBack }) {
   const [category, setCategory] = useState("todas");
   const [role, setRole] = useState("todos");
   const [sort, setSort] = useState("reciente");
+  const [templateFile, setTemplateFile] = useState(null); // estado para archivo
 
+  // Cargar plantillas
   const loadTemplates = async () => {
     setLoading(true);
     const { data, error } = await supabase
@@ -33,6 +35,44 @@ export default function TemplatesPanel({ onBack }) {
   useEffect(() => {
     loadTemplates();
   }, []);
+
+  // Subir plantilla nueva
+  async function handleUploadTemplate(e) {
+    e.preventDefault();
+    if (!templateFile) return alert("Selecciona un archivo primero");
+
+    try {
+      const file = templateFile;
+      const path = `plantillas/${file.name}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from(BUCKET)
+        .upload(path, file, { upsert: false });
+
+      if (uploadError) throw uploadError;
+
+      // Guardar metadatos en la tabla templates
+      const { error: insertError } = await supabase.from("templates").insert([
+        {
+          title: file.name.replace(/\.[^/.]+$/, ""),
+          category: "documentación",
+          role: "líder de calidad",
+          phase: "general",
+          uploaded_at: new Date().toISOString(),
+          path,
+        },
+      ]);
+
+      if (insertError) throw insertError;
+
+      alert("✅ Plantilla subida correctamente");
+      setTemplateFile(null);
+      loadTemplates();
+    } catch (error) {
+      console.error("Error subiendo plantilla:", error.message);
+      alert("❌ Error al subir la plantilla");
+    }
+  }
 
   const filtered = templates
     .filter((t) => {
@@ -99,6 +139,20 @@ export default function TemplatesPanel({ onBack }) {
             <option value="alfabético">Orden: Alfabético</option>
           </select>
         </div>
+      </div>
+
+      {/* Bloque para subir nueva plantilla */}
+      <div className="upload-templates-box">
+        <h3>Subir nueva plantilla</h3>
+        <form onSubmit={handleUploadTemplate}>
+          <input
+            type="file"
+            onChange={(e) => setTemplateFile(e.target.files[0])}
+          />
+          <button type="submit" className="btn primary">
+            Subir plantilla
+          </button>
+        </form>
       </div>
 
       {/* Lista de plantillas */}
