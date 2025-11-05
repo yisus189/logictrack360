@@ -3,6 +3,7 @@ import supabase from "./lib/supabase";
 import { ROLES, PHASES, CATEGORIES } from "./constants";
 import "./index.css";
 import TemplatesPanel from "./components/TemplatesPanel";
+import DataSpace from "./components/DataSpace";
 import logo from "/src/assets/logoLogicTrack360.jpeg";
 
 const BUCKET = import.meta.env.VITE_SUPABASE_BUCKET || "logictrack360";
@@ -221,6 +222,13 @@ export default function App() {
             📄 Plantillas
           </button>
 
+          <button
+            className="btn"
+            onClick={() => setActiveRole("datos")}
+            style={{ marginTop: 8 }}
+          >
+            📊 Datos
+          </button>
 
           <div style={{ marginTop: 18 }}>
             <div className="badge">Subir documentos</div>
@@ -257,9 +265,11 @@ export default function App() {
             </select>
           </div>
 
-          {/* 👇 Aquí está la condición: si se seleccionan Plantillas, mostrar el panel */}
+          {/* 👇 Aquí está la condición: si se seleccionan Plantillas o Datos, mostrar el panel correspondiente */}
           {activeRole === "plantillas" ? (
             <TemplatesPanel />
+          ) : activeRole === "datos" ? (
+            <DataSpace />
           ) : (
             groupedByPhase.map(([phase, items]) => (
               <section key={phase}>

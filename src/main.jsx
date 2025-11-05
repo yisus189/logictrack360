@@ -10,7 +10,3 @@ createRoot(document.getElementById('root')).render(
     <App />
   </StrictMode>,
 )
-
-{selectedDocId === "plantillas" && (
-  <TemplatesPanel />
-)}

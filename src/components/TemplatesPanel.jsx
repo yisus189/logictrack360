@@ -6,7 +6,7 @@ const BUCKET = import.meta.env.VITE_SUPABASE_BUCKET_TEMPLATES || "templates";
 const publicUrl = (path) =>
   supabase.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
 
-export default function TemplatesPanel({ onBack }) {
+export default function TemplatesPanel() {
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
