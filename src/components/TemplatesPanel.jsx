@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import supabase from "../lib/supabase";
+import supabase from "../lib/supabase"; // usa el cliente central
 
-const BUCKET = import.meta.env.VITE_SUPABASE_BUCKET_TEMPLATES || "templates";
+const BUCKET = import.meta.env.VITE_SUPABASE_BUCKET || "logictrack360";
 
 const publicUrl = (path) =>
   supabase.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
@@ -13,7 +13,7 @@ export default function TemplatesPanel({ onBack }) {
   const [category, setCategory] = useState("todas");
   const [role, setRole] = useState("todos");
   const [sort, setSort] = useState("reciente");
-  const [templateFile, setTemplateFile] = useState(null); // estado para archivo
+  const [templateFile, setTemplateFile] = useState(null);
 
   // Cargar plantillas
   const loadTemplates = async () => {
@@ -22,6 +22,7 @@ export default function TemplatesPanel({ onBack }) {
       .from("templates")
       .select("*")
       .order("uploaded_at", { ascending: false });
+
     setLoading(false);
 
     if (error) {
@@ -29,6 +30,7 @@ export default function TemplatesPanel({ onBack }) {
       alert("Error cargando plantillas (RLS / políticas).");
       return;
     }
+
     setTemplates(data || []);
   };
 
@@ -36,44 +38,57 @@ export default function TemplatesPanel({ onBack }) {
     loadTemplates();
   }, []);
 
-  // Subir plantilla nueva
-  async function handleUploadTemplate(e) {
+  // Subir nueva plantilla
+  const handleUploadTemplate = async (e) => {
     e.preventDefault();
-    if (!templateFile) return alert("Selecciona un archivo primero");
+    if (!templateFile) {
+      alert("Selecciona un archivo primero.");
+      return;
+    }
+
+    const file = templateFile;
+    const filePath = `plantillas/${Date.now()}_${file.name}`;
 
     try {
-      const file = templateFile;
-      const path = `plantillas/${file.name}`;
-
-      const { error: uploadError } = await supabase.storage
+      // 1️⃣ Subir archivo al bucket principal
+      const { data: uploadData, error: uploadError } = await supabase.storage
         .from(BUCKET)
-        .upload(path, file, { upsert: false });
+        .upload(filePath, file);
 
-      if (uploadError) throw uploadError;
+      if (uploadError) {
+        console.error("❌ Error al subir al bucket:", uploadError.message);
+        alert("Error al subir la plantilla");
+        return;
+      }
 
-      // Guardar metadatos en la tabla templates
+      // 2️⃣ Registrar metadatos en la tabla templates
       const { error: insertError } = await supabase.from("templates").insert([
         {
           title: file.name.replace(/\.[^/.]+$/, ""),
           category: "documentación",
-          role: "líder de calidad",
-          phase: "general",
+          role: "líder de equipo",
+          phase: "plantillas",
+          path: uploadData.path,
           uploaded_at: new Date().toISOString(),
-          path,
         },
       ]);
 
-      if (insertError) throw insertError;
+      if (insertError) {
+        console.error("❌ Error insertando en tabla:", insertError.message);
+        alert("Error al guardar en base de datos");
+        return;
+      }
 
       alert("✅ Plantilla subida correctamente");
       setTemplateFile(null);
       loadTemplates();
-    } catch (error) {
-      console.error("Error subiendo plantilla:", error.message);
-      alert("❌ Error al subir la plantilla");
+    } catch (err) {
+      console.error("⚠️ Error general:", err.message);
+      alert("Error al subir la plantilla");
     }
-  }
+  };
 
+  // Filtrar plantillas
   const filtered = templates
     .filter((t) => {
       if (category !== "todas" && t.category !== category) return false;
@@ -141,7 +156,7 @@ export default function TemplatesPanel({ onBack }) {
         </div>
       </div>
 
-      {/* Bloque para subir nueva plantilla */}
+      {/* Subir nueva plantilla */}
       <div className="upload-templates-box">
         <h3>Subir nueva plantilla</h3>
         <form onSubmit={handleUploadTemplate}>
