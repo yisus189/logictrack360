@@ -1,10 +1,30 @@
 import React, { useEffect, useState } from "react";
 import supabase from "../lib/supabase"; // usa el cliente central
 
-const BUCKET = import.meta.env.VITE_SUPABASE_BUCKET || "logictrack360";
+const BUCKET = "logictrack360";
 
-const publicUrl = (path) =>
-  supabase.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+
+const publicUrl = (path) => {
+  // Asegura que no haya barras duplicadas
+  const cleanPath = path.replace(/^\/+/, "");
+  const { data, error } = supabase.storage
+    .from(BUCKET)
+    .getPublicUrl(cleanPath);
+
+  if (error) {
+    console.error("Error obteniendo URL pública:", error.message);
+    return "#";
+  }
+
+  if (!data?.publicUrl) {
+    console.warn("No se encontró la URL pública para:", cleanPath);
+    return "#";
+  }
+
+  return data.publicUrl;
+};
+
+
 
 export default function TemplatesPanel({ onBack }) {
   const [templates, setTemplates] = useState([]);
